@@ -1,23 +1,21 @@
 
 import './App.css';
+import * as React from 'react';
+import SignUp from './pages/signup';
+import SignIn from './pages/signin';
+
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom/dist';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="" element={<SignUp/>}></Route>
+        <Route path="/signup" element={<SignUp/>}></Route>
+        <Route path="/signin" element={<SignIn/>}></Route>
+      </Routes>
+    </Router>
   );
 }
 
