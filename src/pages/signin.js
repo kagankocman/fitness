@@ -6,7 +6,6 @@ import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -14,7 +13,9 @@ import { useNavigate } from "react-router-dom/dist";
 import { AppBar, Toolbar } from '@mui/material';
 import '../App.css';
 import ImageView from "./imageView";
-import dumbellPhoto from "../img/dumbell.png"
+import dumbellPhoto from "../img/dumbellBlack.png"
+import LoginIcon from '@mui/icons-material/Login';
+
 
 const defaultTheme = createTheme();
 
@@ -56,23 +57,26 @@ export function SignIn() {
         </AppBar>
       </Box>
       <Box sx={{ display: "flex" }}>
-        <ImageView />
+        <Box>
+          <ImageView />
+        </Box>
         <ThemeProvider theme={defaultTheme}>
           <Container component="main" maxWidth="xs">
             <CssBaseline />
             <Box
               sx={{
-                marginTop: 8,
+                marginTop: 15,
+                marginLeft: 2,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
               }}
             >
-              <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                <LockOutlinedIcon />
+              <Avatar sx={{ m: 1, bgcolor: '#0f6199', width:'50px' , height:'50px' }}>
+                <LoginIcon sx={{ fontSize:'32px' }} />
               </Avatar>
               <Typography component="h1" variant="h5">
-                Sign in
+                Sign In
               </Typography>
               <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                 <TextField

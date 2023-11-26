@@ -5,7 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -13,7 +12,9 @@ import { useNavigate } from "react-router-dom/dist";
 import { AppBar, Toolbar } from '@mui/material';
 import '../App.css';
 import ImageView from "./imageView";
-import dumbellPhoto from "../img/dumbell.png"
+import dumbellPhoto from "../img/dumbellBlack.png"
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+
 
 const defaultTheme = createTheme();
 
@@ -27,6 +28,7 @@ export function SignUp() {
     console.log({
       email: data.get('email'),
       password: data.get('password'),
+      phonenumber: data.get('phonenumber'),
     });
   };
   const handleSignUp = () => {
@@ -38,7 +40,7 @@ export function SignUp() {
   };
 
   return (
-    <Box sx={{ minWidth: "100%", backgroundColor: 'rgb(204, 204, 204)' }} justifyContent="flex-end" alignItems="flex-end">
+    <Box sx={{ minWidth: "100%", backgroundColor: 'rgb(204, 204, 204)' }} justifyContent="flex-end">
       <Box flexDirection="column" justifyContent="flex-end" alignItems="flex-end" sx={{ minWidth: "100%" }}>
         <AppBar position="static" sx={{ height: '90px', backgroundColor: 'GrayText' }}>
           <Toolbar style={{ display: 'flex', justifyContent: 'center' }}>
@@ -54,24 +56,26 @@ export function SignUp() {
         </AppBar>
       </Box>
       <Box sx={{ display: "flex" }}>
-        <ImageView />
+        <Box>
+          <ImageView />
+        </Box>
         <ThemeProvider theme={defaultTheme}>
           <Container component="main" maxWidth="xs">
             <CssBaseline />
             <Box
               sx={{
-                marginTop: 8,
-                marginLeft: 5,
+                marginTop: 10,
+                marginLeft: 2,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
               }}
             >
-              <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                <LockOutlinedIcon />
+              <Avatar sx={{ m: 1, bgcolor: '#0f6199', width: '50px', height: '50px' }}>
+                <HowToRegIcon sx={{ fontSize: '32px' }} />
               </Avatar>
               <Typography component="h1" variant="h5">
-                Sign up
+                Sign Up
               </Typography>
               <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                 <Grid container spacing={2}>

@@ -1,11 +1,8 @@
-
 import './App.css';
 import * as React from 'react';
 import SignUp from './pages/signup';
 import SignIn from './pages/signin';
-
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom/dist';
-
 
 function App() {
   return (
