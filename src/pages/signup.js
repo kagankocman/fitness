@@ -14,6 +14,9 @@ import '../App.css';
 import ImageView from "./imageView";
 import dumbellPhoto from "../img/dumbellBlack.png"
 import HowToRegIcon from '@mui/icons-material/HowToReg';
+import { firestoreDB, auth } from 'C:/Users/Kagan/Documents/ReactApps/fitness/src/firebase/firebase.js'; 
+import { doc, setDoc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 
 const defaultTheme = createTheme();
@@ -22,15 +25,30 @@ export function SignUp() {
 
   let navigate = useNavigate()
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-      phonenumber: data.get('phonenumber'),
-    });
+
+    try {
+      const response = await createUserWithEmailAndPassword(auth, data.get('email'), data.get('password'));
+
+      await setDoc(doc(firestoreDB, "users", response.user.uid), {
+        firstName: data.get('firstName'),
+        lastName: data.get('lastName'),
+        email: data.get('email'),
+        password: data.get('password'),
+        birthdate: data.get('birthdate'),
+        gender: data.get('gender'),
+        phonenumber: data.get('phonenumber'),
+      });
+      alert('Veri Firestore\'a başarıyla eklendi.');
+
+      navigate('/signin');
+    } catch (error) {
+      alert('Firestore veri ekleme hatası:', error);
+    }
   };
+
   const handleSignUp = () => {
     navigate('/signup');
   };

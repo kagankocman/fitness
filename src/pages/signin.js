@@ -15,6 +15,8 @@ import '../App.css';
 import ImageView from "./imageView";
 import dumbellPhoto from "../img/dumbellBlack.png"
 import LoginIcon from '@mui/icons-material/Login';
+import { auth } from 'C:/Users/Kagan/Documents/ReactApps/fitness/src/firebase/firebase.js';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 
 const defaultTheme = createTheme();
@@ -23,13 +25,17 @@ export function SignIn() {
 
   let navigate = useNavigate()
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    try {
+      await signInWithEmailAndPassword(auth, data.get('email'), data.get('password')).then((user) => {
+        alert("Giriş başarılı " + user.user.email)   
+      })
+    } catch (error) {
+        alert(error);
+    }
+    
   };
 
   const handleSignUp = () => {
@@ -72,8 +78,8 @@ export function SignIn() {
                 alignItems: 'center',
               }}
             >
-              <Avatar sx={{ m: 1, bgcolor: '#0f6199', width:'50px' , height:'50px' }}>
-                <LoginIcon sx={{ fontSize:'32px' }} />
+              <Avatar sx={{ m: 1, bgcolor: '#0f6199', width: '50px', height: '50px' }}>
+                <LoginIcon sx={{ fontSize: '32px' }} />
               </Avatar>
               <Typography component="h1" variant="h5">
                 Sign In
