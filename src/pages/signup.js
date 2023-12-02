@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,21 +9,32 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom/dist";
-import { AppBar, Toolbar } from '@mui/material';
+import { AppBar, MenuItem, Toolbar } from '@mui/material';
 import '../App.css';
-import ImageView from "./imageView";
+import ImageView from "../methods/imageView";
 import dumbellPhoto from "../img/dumbellBlack.png"
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import { firestoreDB, auth } from 'C:/Users/Kagan/Documents/ReactApps/fitness/src/firebase/firebase.js'; 
+import { firestoreDB, auth } from 'C:/Users/Kagan/Documents/ReactApps/fitness/src/firebase/firebase.js';
 import { doc, setDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 
+const genders = [
+  {
+    value: 'Kadın',
+    label: 'Kadın',
+  },
+  {
+    value: 'Erkek',
+    label: 'Erkek',
+  },
+];
 
 const defaultTheme = createTheme();
 
 export function SignUp() {
 
   let navigate = useNavigate()
+  const [genderOption, setGender] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -38,8 +49,9 @@ export function SignUp() {
         email: data.get('email'),
         password: data.get('password'),
         birthdate: data.get('birthdate'),
-        gender: data.get('gender'),
+        gender: genderOption,
         phonenumber: data.get('phonenumber'),
+        role: ('danisan'),
       });
       alert('Veri Firestore\'a başarıyla eklendi.');
 
@@ -151,14 +163,19 @@ export function SignUp() {
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <TextField
-                      autoComplete="gender"
-                      name="gender"
-                      required
-                      fullWidth
-                      id="gender"
                       label="Gender"
-                      autoFocus
-                    />
+                      select
+                      required
+                      value={genderOption}
+                      onChange={(e) => setGender(e.target.value)}
+                      sx={{ width: '180px' }}
+                    >
+                      {genders.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
                   </Grid>
                   <Grid item xs={12}>
                     <TextField

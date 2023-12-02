@@ -12,11 +12,12 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom/dist";
 import { AppBar, Toolbar } from '@mui/material';
 import '../App.css';
-import ImageView from "./imageView";
+import ImageView from "../methods/imageView";
 import dumbellPhoto from "../img/dumbellBlack.png"
 import LoginIcon from '@mui/icons-material/Login';
-import { auth } from 'C:/Users/Kagan/Documents/ReactApps/fitness/src/firebase/firebase.js';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { firestoreDB, auth } from 'C:/Users/Kagan/Documents/ReactApps/fitness/src/firebase/firebase.js';
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { getDoc, doc } from 'firebase/firestore';
 
 
 const defaultTheme = createTheme();
@@ -29,13 +30,38 @@ export function SignIn() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     try {
-      await signInWithEmailAndPassword(auth, data.get('email'), data.get('password')).then((user) => {
-        alert("Giriş başarılı " + user.user.email)   
-      })
+      await signInWithEmailAndPassword(
+        auth,
+        data.get('email'),
+        data.get('password')
+      ).then(async (user) => {
+        const userDoc = await getDoc(doc(firestoreDB, 'users', user.user.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          const userRole = userData.role;
+          if (userRole === 'danisan') {
+            navigate('/userpage');
+          } else if (userRole === 'antrenor') {
+            navigate('/coachpage');
+          } else {
+            navigate('/adminpage');
+          }
+        } else {
+          alert('Kullanici bulunamadi.')
+        }
+      });
     } catch (error) {
-        alert(error);
+      alert(error);
     }
-    
+  }
+
+  const handleForgotPassword = async (email) => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("Şifre sıfırlama talebi gönderildi! Lütfen e-postanızı kontrol edin.");
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   const handleSignUp = () => {
@@ -115,7 +141,7 @@ export function SignIn() {
                 </Button>
                 <Grid container>
                   <Grid item xs >
-                    <Link href="#" variant="body2">
+                    <Link onClick={() => handleForgotPassword(document.getElementById('email').value)} variant="body2">
                       Forgot password?
                     </Link>
                   </Grid>
