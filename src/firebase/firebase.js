@@ -5,7 +5,7 @@ import { getStorage } from '@firebase/storage';
 // import 'firebase/storage'
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCHipSzicXzeVHZKTGmrqIxPuE3wvLE5SQ",
+    apiKey: "**************",
     authDomain: "fitness-83552.firebaseapp.com",
     databaseURL: "https://fitness-83552-default-rtdb.firebaseio.com",
     projectId: "fitness-83552",
